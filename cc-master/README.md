@@ -69,7 +69,7 @@ Before you begin, ensure you have the following installed:
 - Git
 - A modern web browser (Chrome, Firefox, Safari, Edge)
 
-## 🚀 Installation
+## 🚀 Installation & Setup
 
 1. **Clone the Repository**
 ```bash
@@ -77,58 +77,33 @@ git clone https://github.com/yourusername/campus-events-hub.git
 cd campus-events-hub
 ```
 
-2. **Install Backend Dependencies**
+2. **Install Dependencies**
 ```bash
+# Install backend dependencies
 cd backend
 npm install
-```
 
-3. **Install Frontend Dependencies**
-```bash
+# Install frontend dependencies
 cd ../frontend
 npm install
 ```
 
-4. **Environment Setup**
-Create a `.env` file in the backend directory:
+3. **Environment Setup**
+Create a `.env` file in the backend directory with the following content:
 ```env
 PORT=5000
-JWT_SECRET=your_jwt_secret
+JWT_SECRET=your_secure_secret_key_here
 DB_PATH=./database/events.db
 NODE_ENV=development
 ```
 
-## 🏗️ Project Structure
-
-```
-campus-events-hub/
-├── backend/
-│   ├── config/           # Configuration files
-│   ├── controllers/      # Route controllers
-│   ├── middleware/       # Custom middleware
-│   ├── models/          # Database models
-│   ├── routes/          # API routes
-│   ├── utils/           # Utility functions
-│   ├── .env            # Environment variables
-│   ├── package.json    # Backend dependencies
-│   └── server.js       # Main server file
-├── frontend/
-│   ├── css/            # Stylesheets
-│   │   ├── main.css    # Main styles
-│   │   └── themes/     # Theme variations
-│   ├── js/             # JavaScript files
-│   │   ├── auth.js     # Authentication logic
-│   │   ├── events.js   # Event management
-│   │   └── ui.js       # UI components
-│   ├── assets/         # Images and media
-│   ├── package.json    # Frontend dependencies
-│   └── server.js       # Frontend server
-└── README.md
+4. **Create Database Directory**
+```bash
+# From the backend directory
+mkdir database
 ```
 
-## 🚀 Running the Application
-
-### Development Mode
+## 🏃‍♂️ Running the Application
 
 1. **Start Backend Server**
 ```bash
@@ -147,178 +122,73 @@ The frontend server will run on http://localhost:3002
 3. **Access the Application**
 Open your web browser and navigate to http://localhost:3002
 
-### Production Mode
+## 🔧 Troubleshooting
 
-1. **Build Frontend**
-```bash
-cd frontend
-npm run build
-```
-
-2. **Start Production Servers**
-```bash
-# Start backend
-cd backend
-npm start
-
-# Start frontend
-cd frontend
-npm start
-```
-
-## 📡 API Documentation
-
-### Authentication Endpoints
-
-#### Register User
-```http
-POST /api/auth/register
-Content-Type: application/json
-
-{
-  "username": "string",
-  "email": "string",
-  "password": "string",
-  "role": "user" | "organizer"
-}
-```
-
-#### Login
-```http
-POST /api/auth/login
-Content-Type: application/json
-
-{
-  "email": "string",
-  "password": "string"
-}
-```
-
-### Event Endpoints
-
-#### Get All Events
-```http
-GET /api/events
-Query Parameters:
-  - category: string
-  - date: string (YYYY-MM-DD)
-  - location: string
-```
-
-#### Create Event (Organizer Only)
-```http
-POST /api/events
-Content-Type: application/json
-
-{
-  "title": "string",
-  "description": "string",
-  "date": "string",
-  "location": "string",
-  "capacity": number,
-  "category": "string"
-}
-```
-
-## 💾 Database Schema
-
-### Users Table
-```sql
-CREATE TABLE users (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  username TEXT NOT NULL,
-  email TEXT UNIQUE NOT NULL,
-  password TEXT NOT NULL,
-  role TEXT NOT NULL,
-  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-);
-```
-
-### Events Table
-```sql
-CREATE TABLE events (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  title TEXT NOT NULL,
-  description TEXT,
-  date DATETIME NOT NULL,
-  location TEXT NOT NULL,
-  capacity INTEGER,
-  organizer_id INTEGER,
-  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (organizer_id) REFERENCES users(id)
-);
-```
-
-## 🔍 Troubleshooting
-
-### Common Issues
+### Common Issues and Solutions
 
 1. **Port Already in Use**
-```bash
-# Find process using port
-netstat -ano | findstr :5000
-# Kill process
-taskkill /F /PID <process_id>
-```
+   - If you see "EADDRINUSE" error, it means the port is already in use
+   - Solution: Kill all Node.js processes and try again
+   ```bash
+   # On Windows
+   taskkill /F /IM node.exe
+   
+   # On Linux/Mac
+   pkill node
+   ```
 
 2. **Database Connection Issues**
-- Ensure SQLite is properly installed
-- Check database file permissions
-- Verify database path in .env file
+   - If you see "SQLITE_CANTOPEN" error, ensure:
+     - The database directory exists
+     - The application has write permissions
+     - The DB_PATH in .env is correct
 
-3. **Authentication Problems**
-- Clear browser cache and cookies
-- Verify JWT_SECRET in .env
-- Check token expiration
+3. **Authentication Errors**
+   - If login/register fails with 500 error:
+     - Check if JWT_SECRET is set in .env
+     - Ensure the database is properly initialized
+     - Check server logs for detailed error messages
 
-## 🧪 Testing
+4. **CORS Issues**
+   - If you see CORS errors in the browser console:
+     - Ensure the backend server is running
+     - Check if the frontend is making requests to the correct URL
+     - Verify CORS middleware is properly configured
 
-Run the test suite:
-```bash
-# Backend tests
-cd backend
-npm test
+## 📁 Project Structure
 
-# Frontend tests
-cd frontend
-npm test
+```
+campus-events-hub/
+├── backend/
+│   ├── config/           # Configuration files
+│   ├── controllers/      # Route controllers
+│   ├── middleware/       # Custom middleware
+│   ├── models/          # Database models
+│   ├── routes/          # API routes
+│   ├── utils/           # Utility functions
+│   ├── database/        # SQLite database files
+│   ├── .env            # Environment variables
+│   ├── package.json    # Backend dependencies
+│   └── server.js       # Main server file
+├── frontend/
+│   ├── css/            # Stylesheets
+│   ├── js/             # JavaScript files
+│   ├── assets/         # Images and media
+│   ├── package.json    # Frontend dependencies
+│   └── server.js       # Frontend server
+└── README.md
 ```
 
-## 📈 Performance Optimization
+## 🔐 Security Notes
 
-- Implemented caching for frequently accessed data
-- Optimized database queries
-- Minified static assets
-- Lazy loading for images
-- Compression middleware
-
-## 🔒 Security Measures
-
-- JWT token-based authentication
-- Password hashing with bcrypt
-- CORS protection
-- Rate limiting
-- Input validation
-- SQL injection prevention
-- XSS protection
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-### Code Style
-- Follow ESLint configuration
-- Use meaningful variable names
-- Write clear comments
-- Follow the existing code structure
+- Never commit the `.env` file to version control
+- Use a strong, unique JWT_SECRET in production
+- Keep your Node.js and dependencies updated
+- Regularly backup the database
 
 ## 📝 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## 👥 Authors
 
