@@ -2,7 +2,6 @@
 
 A modern, full-stack web application for managing and discovering campus events. Built with Node.js, Express, and SQLite, this platform enables seamless event management for both organizers and participants.
 
-![Campus Events Hub](https://via.placeholder.com/800x400?text=Campus+Events+Hub)
 
 ## 🌟 Key Features
 
@@ -92,7 +91,7 @@ npm install
 Create a `.env` file in the backend directory with the following content:
 ```env
 PORT=5000
-JWT_SECRET=your_secure_secret_key_here
+JWT_SECRET=**********
 DB_PATH=./database/events.db
 NODE_ENV=development
 ```
@@ -186,20 +185,11 @@ campus-events-hub/
 - Keep your Node.js and dependencies updated
 - Regularly backup the database
 
-## 📝 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
 ## 👥 Authors
 
-- ASLOUNE Yahya - ED-DHIBI Youssef - Initial work - [YourGitHub](https://github.com/yourusername)
+- ASLOUNE Yahya - ED-DHIBI Youssef -
 
 ## 🙏 Acknowledgments
 
 - Thanks to all contributors
-- Inspired by [Project Name]
-- Built with [Technology Name]
 
-## 📞 Support
-
-For support, email support@campuseventshub.com or open an issue in the repository. 
